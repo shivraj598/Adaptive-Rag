@@ -13,7 +13,7 @@ CLOUDFLARE_ACCOUNT_ID = os.getenv("CLOUDFLARE_ACCOUNT_ID", "")
 BASE_URL = f"https://api.cloudflare.com/client/v4/accounts/{CLOUDFLARE_ACCOUNT_ID}/ai/v1"
 
 llm = ChatOpenAI(
-    model="@cf/meta/llama-3.2-3b-instruct",
+    model="@cf/meta/llama-3.1-8b-instruct-fp8",
     api_key=CLOUDFLARE_API_KEY,
     base_url=BASE_URL,
     max_tokens=1024,
