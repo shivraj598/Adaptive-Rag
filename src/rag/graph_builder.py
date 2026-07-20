@@ -11,7 +11,7 @@ from langgraph.graph.state import StateGraph
 from src.rag.reAct_agent import agent_executor
 from src.rag.retriever_setup import get_retriever
 from src.config.settings import Config
-from src.llms.openai import llm
+from src.llms.openai import llm, extract_text
 from src.models.grade import Grade
 from src.models.route_identifier import RouteIdentifier
 from src.models.state import State
@@ -83,26 +83,12 @@ def retriever_node(state: State):
     Returns:
         dict: Updated messages with tool calls.
     """
-    messages = state["latest_query"]
-    result = agent_executor.invoke({"input": messages})
+    query = state["latest_query"]
+    result = agent_executor.invoke({"messages": [{"role": "user", "content": query}]})
 
-    # Extract tool calls
-    intermediate_steps = result.get("intermediate_steps", [])
-    tool_calls = []
-    if intermediate_steps:
-        for action, tool_result in intermediate_steps:
-            tool_calls.append({
-                "tool": action.tool,
-                "input": action.tool_input,
-            })
-
-    new_message = AIMessage(
-        content=result["output"],
-        additional_kwargs={"tool_calls": tool_calls},
-    )
-
+    ai_message = result["messages"][-1]
     return {
-        "messages": [new_message]
+        "messages": [AIMessage(content=ai_message.content)]
     }
 
 
@@ -152,7 +138,7 @@ def rewrite_query(state: State):
     print(result)
 
     return {
-        "latest_query": result.content,
+        "latest_query": extract_text(result),
         "rewrite_count": (state.get("rewrite_count") or 0) + 1,
     }
 
@@ -177,7 +163,7 @@ def generate(state: State):
     generate_chain = generate_prompt | llm
     result = generate_chain.invoke({"context": context})
 
-    return {"messages": [{"role": "assistant", "content": result.content}]}
+    return {"messages": [{"role": "assistant", "content": extract_text(result)}]}
 
 
 def web_search(state: State):

@@ -2,7 +2,7 @@
 Common tools for document and description processing.
 """
 
-from src.llms.openai import llm
+from src.llms.openai import llm, extract_text
 
 
 def enhance_description_with_llm(user_description: str) -> str:
@@ -28,4 +28,4 @@ def enhance_description_with_llm(user_description: str) -> str:
     Tool Instruction:"""
 
     response = llm.invoke(prompt)
-    return response.content.strip()
+    return extract_text(response).strip()
