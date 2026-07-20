@@ -3,7 +3,7 @@ langgraph~=0.5.4
 langchain_community~=0.3.27
 langchain_core~=0.3.72
 langchain_groq
-langchain_openai~=0.3.28
+langchain_google_genai<2
 sentence-transformers
 faiss-cpu
 tavily-python
