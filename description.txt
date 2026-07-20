@@ -1,10 +1,10 @@
-Here are a few ways to write this, depending on the level of strictness you want to convey to the model:
+Here are a few ways to rewrite this, depending on the level of formality you need:
 
-**Option 1: Direct and Professional (Recommended)**
-> "Use this tool to retrieve information specifically from the resume of Shivraj Timilsena. This tool is intended solely for answering questions based on the content of the uploaded document; do not use it to answer questions unrelated to this specific resume."
+**Option 1: Direct and Concise (Recommended)**
+> "Use this tool to retrieve information from the uploaded resume. This tool is strictly limited to answering questions based on the content of the provided document."
 
-**Option 2: Concise and Strict**
-> "This tool provides access to the resume of Shivraj Timilsena. Use it exclusively to answer questions regarding the information contained within this document. Do not use this tool for any queries outside the scope of this resume."
+**Option 2: Formal/System Prompt Style**
+> "This tool provides access to the uploaded resume. Use it exclusively to answer questions regarding the details, experience, and information contained within the document. Do not use this tool for any queries unrelated to the uploaded content."
 
-**Option 3: System-Oriented (Best for highly technical LLM implementations)**
-> "Retriever tool for the document: 'resume of Shivraj Timilsena'. Scope: Strictly limited to answering questions based on the provided text. Constraint: Do not attempt to use this tool for general knowledge or information not present in the uploaded resume."
+**Option 3: Short/Minimalist**
+> "Retrieves information from the uploaded resume. Use this tool only to answer questions about the provided document."
