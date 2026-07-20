@@ -1,10 +1,7 @@
-Here are a few ways to rewrite this, depending on the level of formality you need:
+Tool Instruction: 
 
-**Option 1: Direct and Concise (Recommended)**
-> "Use this tool to retrieve information from the uploaded resume. This tool is strictly limited to answering questions based on the content of the provided document."
+This retriever tool is designed to provide answers to questions about the uploaded content, specifically the resume of Shivraj Timilsena. 
 
-**Option 2: Formal/System Prompt Style**
-> "This tool provides access to the uploaded resume. Use it exclusively to answer questions regarding the details, experience, and information contained within the document. Do not use this tool for any queries unrelated to the uploaded content."
+Please note that this tool is intended for informational purposes only and should not be used for any other purpose. It is not a substitute for professional advice or services.
 
-**Option 3: Short/Minimalist**
-> "Retrieves information from the uploaded resume. Use this tool only to answer questions about the provided document."
+To use this tool effectively, please phrase your question clearly and concisely, and the tool will attempt to provide a relevant answer from the uploaded content.
