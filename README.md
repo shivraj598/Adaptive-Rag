@@ -38,7 +38,7 @@ If retrieved documents are irrelevant, the query is rewritten and re-retrieved (
 |-------|-----------|
 | Frontend | React 19 + Vite + Tailwind CSS v4 |
 | Backend | FastAPI + Uvicorn |
-| LLM Provider | OpenRouter (GPT-4o) |
+| LLM Provider | Google Gemini 1.5 Flash |
 | Embeddings | HuggingFace `all-MiniLM-L6-v2` (local — no API key needed) |
 | Vector Store | FAISS (persisted to disk) |
 | Orchestration | LangGraph |
@@ -54,7 +54,7 @@ If retrieved documents are irrelevant, the query is rewritten and re-retrieved (
 - Python 3.12
 - Node.js 20+
 - MongoDB Atlas connection string
-- OpenRouter API key
+- Gemini API key
 - Tavily API key
 
 ### Setup
@@ -80,7 +80,7 @@ npx vite --host --port 5173
 ### Environment Variables (`.env`)
 
 ```
-OPENROUTER_API_KEY=sk-or-v1-...
+GEMINI_API_KEY=...
 TAVILY_API_KEY=tvly-...
 MONGODB_URL=mongodb+srv://user:pass@cluster.mongodb.net/
 MONGODB_DB_NAME=adaptive_rag
