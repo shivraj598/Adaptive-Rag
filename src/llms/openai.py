@@ -1,25 +1,16 @@
-"""
-LLM initialization via OpenRouter (OpenAI-compatible endpoint).
-"""
+"""LLM initialization via Google Gemini."""
 
 import os
 
 from dotenv import load_dotenv
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 load_dotenv()
-os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY", "")
 
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")
-OPENROUTER_BASE_URL = os.getenv("OPENROUTER_BASE_URL", "https://openrouter.ai/api/v1")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 
-llm = ChatOpenAI(
-    model="gpt-4o",
-    api_key=OPENROUTER_API_KEY,
-    base_url=OPENROUTER_BASE_URL,
+llm = ChatGoogleGenerativeAI(
+    model="gemini-2.0-flash",
+    google_api_key=GEMINI_API_KEY,
     max_tokens=1024,
-    default_headers={
-        "HTTP-Referer": "http://localhost:8000",
-        "X-Title": "Adaptive RAG",
-    }
-) if OPENROUTER_API_KEY else ChatOpenAI(model="gpt-4o")
+)
