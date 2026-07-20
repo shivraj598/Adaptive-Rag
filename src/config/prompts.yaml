@@ -7,7 +7,7 @@ prompts:
     Be concise and accurate.
 
   classify_prompt: |
-    Using the context below, answer concisely. If context is empty or irrelevant, use your own knowledge. If you need to search the web, say __WEB__.
+    Using the context below, answer the question in a clean, readable format suitable for a chat interface. Use bullet points or short paragraphs as needed. If context is empty or irrelevant, use your own knowledge. If you need to search the web, say __WEB__.
     
     Context: {context}
     Question: {question}
@@ -27,7 +27,7 @@ prompts:
     You just have to rewrite the query so that we could get more accurate and suitable answer from our indexed information database.
 
   generate_prompt: |
-    Answer the question concisely based only on the context provided. Do not add formatting or extra information.
+    Using the context below, answer the question in a clean, readable format suitable for a chat interface. Use bullet points or short paragraphs.
     Question: {question}
     Context: {context}
     Answer:
