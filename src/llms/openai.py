@@ -1,18 +1,23 @@
-"""LLM initialization via Google Gemini."""
+"""LLM initialization via Cloudflare Workers AI (OpenAI-compatible API)."""
 
 import os
 
 from dotenv import load_dotenv
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 
 load_dotenv()
 
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
+CLOUDFLARE_API_KEY = os.getenv("CLOUDFLARE_API_KEY", "")
+CLOUDFLARE_ACCOUNT_ID = os.getenv("CLOUDFLARE_ACCOUNT_ID", "")
 
-llm = ChatGoogleGenerativeAI(
-    model="gemini-3-flash-preview",
-    google_api_key=GEMINI_API_KEY,
+BASE_URL = f"https://api.cloudflare.com/client/v4/accounts/{CLOUDFLARE_ACCOUNT_ID}/ai/v1"
+
+llm = ChatOpenAI(
+    model="@cf/google/gemma-4-26b-a4b-it",
+    api_key=CLOUDFLARE_API_KEY,
+    base_url=BASE_URL,
     max_tokens=1024,
+    temperature=0,
 )
 
 
