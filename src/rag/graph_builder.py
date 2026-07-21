@@ -28,9 +28,10 @@ generate_prompt = PromptTemplate(
 
 def query_classifier(state: State):
     question = state["messages"][-1].content
+    session_id = state.get("session_id")
 
-    if has_documents():
-        retriever = get_retriever()
+    if has_documents(session_id):
+        retriever = get_retriever(session_id)
         context = retriever.invoke(question)
         print("context received from retriever")
         print(context[:500] if context else "empty")
