@@ -17,3 +17,4 @@ class State(TypedDict):
     latest_query: Optional[str]
     rewrite_count: Optional[int]
     retrieved_context: Optional[str]
+    session_id: Optional[str]
