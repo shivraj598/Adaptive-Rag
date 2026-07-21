@@ -13,7 +13,7 @@ from src.rag.retriever_setup import retriever_chain
 from src.tools.common_tools import enhance_description_with_llm
 
 
-def documents(description: str, file: UploadFile = File(...)):
+def documents(description: str, session_id: str, file: UploadFile = File(...)):
     """
     Process and upload a document for RAG.
 
@@ -22,6 +22,7 @@ def documents(description: str, file: UploadFile = File(...)):
 
     Args:
         description: User-provided document description.
+        session_id: Session ID to scope the document to.
         file: The uploaded file (PDF or TXT).
 
     Returns:
@@ -81,6 +82,10 @@ def documents(description: str, file: UploadFile = File(...)):
         chunk_overlap=150
     )
     chunks = splitter.split_documents(docs)
+
+    # Tag each chunk with the session_id
+    for chunk in chunks:
+        chunk.metadata["session_id"] = session_id
 
     return retriever_chain(chunks)
 
