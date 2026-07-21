@@ -3,7 +3,7 @@ Document upload and processing module.
 """
 
 import os
-import tempfile
+from pathlib import Path
 
 from fastapi import UploadFile, File
 from langchain_community.document_loaders import PyPDFLoader, TextLoader
@@ -12,13 +12,15 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from src.rag.retriever_setup import retriever_chain
 from src.tools.common_tools import enhance_description_with_llm
 
+UPLOADS_DIR = Path(__file__).parent.parent.parent / "uploads"
+
 
 def documents(description: str, session_id: str, file: UploadFile = File(...)):
     """
     Process and upload a document for RAG.
 
-    Validates file type, loads content, enhances description, chunks documents,
-    and stores them in the vector database.
+    Validates file type, saves file to disk, loads content, enhances description,
+    chunks documents, and stores them in the vector database.
 
     Args:
         description: User-provided document description.
@@ -40,19 +42,22 @@ def documents(description: str, session_id: str, file: UploadFile = File(...)):
             detail="Only PDF and TXT files are supported"
         )
 
+    # Persist file to uploads/{session_id}/
+    session_dir = UPLOADS_DIR / session_id
+    session_dir.mkdir(parents=True, exist_ok=True)
+    file_path = session_dir / filename
+
     file_bytes = file.file.read()
+    with open(file_path, "wb") as f:
+        f.write(file_bytes)
 
-    with tempfile.NamedTemporaryFile(
-        delete=False,
-        suffix=os.path.splitext(filename)[1]
-    ) as tmp_file:
-        tmp_file.write(file_bytes)
-        tmp_path = tmp_file.name
+    print(f"Saved file to {file_path}")
 
+    # Load document from saved file
     if filename.endswith(".pdf"):
-        loader = PyPDFLoader(tmp_path)
+        loader = PyPDFLoader(str(file_path))
     else:
-        loader = TextLoader(tmp_path, encoding="utf-8")
+        loader = TextLoader(str(file_path), encoding="utf-8")
 
     try:
         docs = loader.load()
@@ -62,8 +67,6 @@ def documents(description: str, session_id: str, file: UploadFile = File(...)):
             status_code=500,
             detail=f"Error loading file: {e}"
         )
-    finally:
-        os.unlink(tmp_path)
 
     # Enhance description using LLM
     description_llm = enhance_description_with_llm(description)
@@ -88,7 +91,3 @@ def documents(description: str, session_id: str, file: UploadFile = File(...)):
         chunk.metadata["session_id"] = session_id
 
     return retriever_chain(chunks)
-
-
-
-
